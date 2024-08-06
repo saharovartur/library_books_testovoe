@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Каталог книг</h1>
+    {% for book in books %}
+        <div class="card mb-3">
+            <div class="row">
+                <div class="col-8">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{{ book.get_absolute_url }}">{{ book.name }}</a>
+                            <div class="text-muted fst-italic mb-2">
+                            Автор: {{ book.author }} | Жанр: {{ book.genre }}
+                        </div>
+    {% if book.borrowed_by == request.user %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="book_id" value="{{ book.id }}">
+        <button type="submit" name="action" value="return" class="btn btn-danger btn-sm">Вернуть</button>
+    </form>
+
+    {% else %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="book_id" value="{{ book.id }}">
+        <a href="{% url 'borrow_book' book.id %}" class="btn btn-primary">Взять</a>
+    </form>
+    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+
+
+

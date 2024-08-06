@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container my-5">
+        <h2 class="mb-4">Список должников</h2>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Адрес</th>
+                    <th>Название книги</th>
+                    <th>Дата получения</th>
+                    <th>Количество дней</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for issue in overdue_issues %}
+                    <tr>
+                        <td>{{ issue.user.username }}</td>
+                        <td>{{ issue.user.first_name }}</td>
+                        <td>{{ issue.user.last_name }}</td>
+                        <td>{{ issue.user.profile.address }}</td> <!-- Предполагается, что у пользователя есть Profile с полем address -->
+                        <td>{{ issue.book.name }}</td>
+                        <td>{{ issue.date }}</td>
+                        <td>{{ issue.days_on_hand }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

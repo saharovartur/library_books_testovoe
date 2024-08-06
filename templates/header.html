@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Меридиан</a>
+        <div class="navbar-nav ms-auto">
+            {% if request.user.is_authenticated %}
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ request.user.username }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item{% if request.resolver_match.url_name == 'book_list' %} active{% endif %}" href="{% url 'book_list' %}">Список книг</a></li>
+                    <li><a class="dropdown-item{% if request.resolver_match.url_name == 'mybooklist' %} active{% endif %}" href="{% url 'mybooklist' %}">Мои книги</a></li>
+                    <li><a class="dropdown-item{% if request.resolver_match.url_name == 'password_change' %} active{% endif %}" href="{% url 'password_change' %}">Изменить пароль</a></li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Выйти</button>
+                        </form>
+                    </li>
+                    {% if request.user.is_staff %}
+                    <li><a class="dropdown-item{% if request.resolver_match.url_name == 'borrowers-list' %} active{% endif %}" href="{% url 'borrowers-list' %}">Список должников</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% else %}
+            <div class="nav-item">
+                <a class="nav-link{% if request.resolver_match.url_name == 'login' %} active{% endif %}" href="{% url 'login' %}">Войти</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link{% if request.resolver_match.url_name == 'signup' %} active{% endif %}" href="{% url 'signup' %}">Регистрация</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
